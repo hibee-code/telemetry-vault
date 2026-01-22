@@ -1,9 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-
 export default registerAs('database', (): TypeOrmModuleOptions => {
-    // Validate required environment variables
     const requiredEnvVars = [
         'DB_HOST',
         'DB_PORT',
@@ -17,7 +15,7 @@ export default registerAs('database', (): TypeOrmModuleOptions => {
     if (missingVars.length > 0) {
         throw new Error(
             `Missing required database environment variables: ${missingVars.join(', ')}. ` +
-            'Please ensure all variables are set in your .env file.'
+            'Please ensure all variables are set in your .env file.',
         );
     }
 
@@ -28,8 +26,8 @@ export default registerAs('database', (): TypeOrmModuleOptions => {
         username: process.env.DB_USERNAME!,
         password: process.env.DB_PASSWORD!,
         database: process.env.DB_DATABASE!,
-        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-        migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
+        entities: [__dirname + '/../**/*.entity.{ts,js}'],
+        migrations: [__dirname + '/../database/migrations/*.{ts,js}'],
         synchronize: process.env.DB_SYNCHRONIZE === 'true',
         logging: process.env.DB_LOGGING === 'true',
         poolSize: 50,

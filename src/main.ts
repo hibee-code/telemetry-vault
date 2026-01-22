@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { swaggerConfig } from './config/swagger.config';
 import { AppModule } from './app.module';
 import { LoggerService } from './observability/logger.service';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
@@ -31,27 +32,10 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggingInterceptor(logger));
 
   // Swagger documentation
-  const config = new DocumentBuilder()
-    .setTitle('Telemetry Vault API')
-    .setDescription(
-      'High-throughput telemetry ingestion service for logs, metrics, and traces',
-    )
-    .setVersion('1.0')
-    .addApiKey(
-      {
-        type: 'apiKey',
-        name: 'X-API-Key',
-        in: 'header',
-        description: 'API key for authentication',
-      },
-      'api-key',
-    )
-    .addTag('Ingestion', 'Ingest telemetry events')
-    .addTag('Query', 'Query and analyze telemetry data')
-    .build();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api/docs', app, document, {
+    jsonDocumentUrl: 'api/docs-json',
+  });
 
   const port = process.env.PORT || 3000;
   await app.listen(port);

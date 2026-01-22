@@ -4,13 +4,13 @@ A high-throughput telemetry ingestion service for logs, metrics, and traces with
 
 ## Features
 
-- ✅ **High-throughput ingestion** with batch processing
-- ✅ **Idempotent writes** via unique constraints
-- ✅ **Multi-tenant isolation** with API key authentication
-- ✅ **Rate limiting** with sliding window algorithm
-- ✅ **Flexible querying** with filtering, pagination, and aggregation
-- ✅ **Observability** with structured logging and OpenTelemetry tracing
-- ✅ **Production-ready** with Docker support and health checks
+- **High-throughput ingestion** with batch processing
+- **Idempotent writes** via unique constraints
+- **Multi-tenant isolation** with API key authentication
+- **Rate limiting** with sliding window algorithm
+- **Flexible querying** with filtering, pagination, and aggregation
+- **Observability** with structured logging and OpenTelemetry tracing
+- **Production-ready** with Docker support and health checks
 
 ## Quick Start
 

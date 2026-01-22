@@ -155,8 +155,8 @@ INGEST_BATCH_SIZE=100  # Tune based on event size
 ```typescript
 poolSize: 50,
 extra: {
-  max: 50,        // Maximum connections
-  min: 10,        // Minimum connections
+  max: 50,       
+  min: 10,        
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
 }
@@ -221,8 +221,8 @@ ON events (tenant_id, service_name, timestamp DESC);
 - **Covering indexes**: Avoid table lookups for common queries
 
 **Trade-offs:**
-- ✅ Fast reads (index-only scans)
-- ❌ Slower writes (4 indexes to update)
+-  Fast reads (index-only scans)
+-  Slower writes (4 indexes to update)
 - **Decision**: Acceptable for read-heavy workload
 
 #### 2. Idempotency at Database Level
@@ -234,7 +234,7 @@ await eventRepository
   .insert()
   .into(Event)
   .values(entities)
-  .orIgnore()  // ON CONFLICT DO NOTHING
+  .orIgnore() 
   .execute();
 ```
 
@@ -356,16 +356,16 @@ LIMIT 100 OFFSET 0;
 ### Pros and Cons
 
 **Pros:**
-- ✅ Simple implementation
-- ✅ Direct page access (jump to page 10)
-- ✅ Total count available
-- ✅ Familiar UX (page numbers)
+- Simple implementation
+- Direct page access (jump to page 10)
+- Total count available
+- Familiar UX (page numbers)
 
 **Cons:**
-- ❌ Performance degrades with large offsets
+-  Performance degrades with large offsets
   - `OFFSET 10000` scans and discards 10,000 rows
-- ❌ Inconsistent results if data changes between pages
-- ❌ Not suitable for infinite scroll
+-  Inconsistent results if data changes between pages
+-  Not suitable for infinite scroll
 
 ### Performance Analysis
 
@@ -408,14 +408,14 @@ LIMIT 100;
 ```
 
 **Pros:**
-- ✅ Constant performance (no offset scan)
-- ✅ Consistent results (stable ordering)
-- ✅ Suitable for infinite scroll
+- Constant performance (no offset scan)
+- Consistent results (stable ordering)
+- Suitable for infinite scroll
 
 **Cons:**
-- ❌ Cannot jump to arbitrary page
-- ❌ No total count (expensive to compute)
-- ❌ More complex implementation
+- Cannot jump to arbitrary page
+- No total count (expensive to compute)
+- More complex implementation
 
 **Migration Path:**
 1. Add cursor support alongside offset
@@ -661,12 +661,11 @@ LIMIT 100;
                       │  Dashboards │
                       └─────────────┘
 ```
-
 **Implementation:**
-1. **Prometheus**: Scrape `/metrics` endpoint
-2. **Loki**: Aggregate Winston JSON logs
-3. **Jaeger**: Collect OpenTelemetry spans
-4. **Grafana**: Unified dashboards + alerts
+1. Prometheus: Scrape `/metrics` endpoint
+2. Loki: Aggregate Winston JSON logs
+3. Jaeger: Collect OpenTelemetry spans
+4. Grafana: Unified dashboards + alerts
 
 ---
 
@@ -674,10 +673,10 @@ LIMIT 100;
 
 This system design provides a solid foundation for a production-grade telemetry ingestion service. Key strengths:
 
-- ✅ **Idempotency**: Database-level enforcement
-- ✅ **Multi-tenancy**: Secure isolation with API keys
-- ✅ **Performance**: Batch processing + optimized indexes
-- ✅ **Observability**: Comprehensive logging and tracing
-- ✅ **Scalability**: Clear upgrade paths (partitioning, replicas, queues)
+- Idempotency: Database-level enforcement
+- Multi-tenancy: Secure isolation with API keys
+- Performance: Batch processing + optimized indexes
+- Observability: Comprehensive logging and tracing
+- Scalability: Clear upgrade paths (partitioning, replicas, queues)
 
 The architecture follows KISS principles while providing clear paths for future enhancements as load increases.
